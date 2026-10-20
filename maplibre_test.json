@@ -1,8 +1,8 @@
 {
   "version": 8,
-  "name": "GPX Studio - Surface Inspector",
+  "name": "GPX Studio - Surface Inspector with Grass and Styled Ways",
   "metadata": {
-    "description": "Style highlighting specific road surface values using named CSS colors."
+    "description": "Style highlighting road surface types including grass, with dotted paths and dashed tracks."
   },
   "sources": {
     "openmaptiles": {
@@ -29,14 +29,15 @@
       }
     },
     {
-      "id": "road-casing",
+      "id": "road-solid-casing",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
       "filter": [
         "all",
         ["!=", "class", "railway"],
-        ["!=", "class", "ferry"]
+        ["!=", "class", "ferry"],
+        ["!in", "class", "path", "track", "footway", "pedestrian"]
       ],
       "layout": {
         "line-cap": "round",
@@ -55,14 +56,15 @@
       }
     },
     {
-      "id": "road-surface",
+      "id": "road-solid-surface",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
       "filter": [
         "all",
         ["!=", "class", "railway"],
-        ["!=", "class", "ferry"]
+        ["!=", "class", "ferry"],
+        ["!in", "class", "path", "track", "footway", "pedestrian"]
       ],
       "layout": {
         "line-cap": "round",
@@ -90,6 +92,144 @@
           "yellow",
           ["gravel", "fine_gravel"],
           "gray",
+          "grass",
+          "green",
+          "lightgray"
+        ]
+      }
+    },
+    {
+      "id": "track-casing",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", "class", "track"]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "white",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          11, 2.5,
+          14, 4.5,
+          18, 9
+        ],
+        "line-dasharray": [4, 2]
+      }
+    },
+    {
+      "id": "track-surface",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", "class", "track"]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          11, 1.4,
+          14, 2.8,
+          18, 6
+        ],
+        "line-dasharray": [4, 2],
+        "line-color": [
+          "match",
+          ["get", "surface"],
+          ["asphalt", "concrete"],
+          "darkgray",
+          ["dirt", "earth", "ground"],
+          "saddlebrown",
+          "mud",
+          "brown",
+          "sand",
+          "yellow",
+          ["gravel", "fine_gravel"],
+          "gray",
+          "grass",
+          "green",
+          "lightgray"
+        ]
+      }
+    },
+    {
+      "id": "path-dotted-casing",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["in", "class", "path", "footway", "pedestrian"]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "white",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          11, 2,
+          14, 3.8,
+          18, 7
+        ],
+        "line-dasharray": [0.1, 2]
+      }
+    },
+    {
+      "id": "path-dotted-surface",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["in", "class", "path", "footway", "pedestrian"]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          11, 1,
+          14, 2,
+          18, 4.5
+        ],
+        "line-dasharray": [0.1, 2],
+        "line-color": [
+          "match",
+          ["get", "surface"],
+          ["asphalt", "concrete"],
+          "darkgray",
+          ["dirt", "earth", "ground"],
+          "saddlebrown",
+          "mud",
+          "brown",
+          "sand",
+          "yellow",
+          ["gravel", "fine_gravel"],
+          "gray",
+          "grass",
+          "green",
           "lightgray"
         ]
       }
