@@ -1,8 +1,8 @@
 {
   "version": 8,
-  "name": "GPX Studio - Keyless Road Surface Inspector",
+  "name": "GPX Studio - Surface Inspector",
   "metadata": {
-    "description": "Style highlighting road surface types using free OpenFreeMap vector tiles."
+    "description": "Style highlighting specific road surface values using named CSS colors."
   },
   "sources": {
     "openmaptiles": {
@@ -16,7 +16,7 @@
       "id": "background",
       "type": "background",
       "paint": {
-        "background-color": "#f8f9fa"
+        "background-color": "whitesmoke"
       }
     },
     {
@@ -25,7 +25,7 @@
       "source": "openmaptiles",
       "source-layer": "water",
       "paint": {
-        "fill-color": "#c4e3ed"
+        "fill-color": "lightblue"
       }
     },
     {
@@ -43,7 +43,7 @@
         "line-join": "round"
       },
       "paint": {
-        "line-color": "#ffffff",
+        "line-color": "white",
         "line-width": [
           "interpolate",
           ["linear"],
@@ -78,73 +78,19 @@
           18, 9
         ],
         "line-color": [
-          "case",
-          [
-            "match",
-            ["get", "surface"],
-            ["paved", "asphalt", "concrete", "concrete:lanes", "paving_stones"],
-            true,
-            false
-          ],
-          "#38a169",
-          [
-            "match",
-            ["get", "surface"],
-            ["cobblestone", "sett", "unhewn_cobblestone"],
-            true,
-            false
-          ],
-          "#d69e2e",
-          [
-            "match",
-            ["get", "surface"],
-            ["compacted", "fine_gravel", "gravel"],
-            true,
-            false
-          ],
-          "#dd6b20",
-          [
-            "match",
-            ["get", "surface"],
-            ["unpaved", "dirt", "earth", "ground", "mud", "sand"],
-            true,
-            false
-          ],
-          "#e53e3e",
-          "#a0aec0"
-        ]
-      }
-    },
-    {
-      "id": "road-surface-tracktype-fallback",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "filter": [
-        "all",
-        ["!has", "surface"],
-        ["has", "tracktype"]
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      },
-      "paint": {
-        "line-width": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          8, 0.8,
-          14, 3.5,
-          18, 9
-        ],
-        "line-color": [
           "match",
-          ["get", "tracktype"],
-          "grade1", "#38a169",
-          "grade2", "#dd6b20",
-          ["grade3", "grade4", "grade5"], "#e53e3e",
-          "#a0aec0"
+          ["get", "surface"],
+          ["asphalt", "concrete"],
+          "darkgray",
+          ["dirt", "earth", "ground"],
+          "saddlebrown",
+          "mud",
+          "brown",
+          "sand",
+          "yellow",
+          ["gravel", "fine_gravel"],
+          "gray",
+          "lightgray"
         ]
       }
     },
@@ -160,8 +106,8 @@
         "text-font": ["Noto Sans Regular"]
       },
       "paint": {
-        "text-color": "#2d3748",
-        "text-halo-color": "#ffffff",
+        "text-color": "black",
+        "text-halo-color": "white",
         "text-halo-width": 1.5
       }
     }
