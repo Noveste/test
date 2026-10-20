@@ -1,16 +1,16 @@
 {
   "version": 8,
-  "name": "GPX Studio - Road Surface Inspector",
+  "name": "GPX Studio - Keyless Road Surface Inspector",
   "metadata": {
-    "description": "Style for gpx.studio highlighting road surface types for cycling and outdoor routing."
+    "description": "Style highlighting road surface types using free OpenFreeMap vector tiles."
   },
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "https://api.maptiler.com/tiles/v3/tiles.json?key=YOUR_MAPTILER_API_KEY"
+      "url": "https://tiles.openfreemap.org/planet"
     }
   },
-  "glyphs": "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+  "glyphs": "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -157,7 +157,7 @@
         "symbol-placement": "line",
         "text-field": "{name}",
         "text-size": 11,
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["Noto Sans Regular"]
       },
       "paint": {
         "text-color": "#2d3748",
