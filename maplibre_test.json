@@ -1,0 +1,169 @@
+{
+  "version": 8,
+  "name": "GPX Studio - Road Surface Inspector",
+  "metadata": {
+    "description": "Style for gpx.studio highlighting road surface types for cycling and outdoor routing."
+  },
+  "sources": {
+    "openmaptiles": {
+      "type": "vector",
+      "url": "https://api.maptiler.com/tiles/v3/tiles.json?key=YOUR_MAPTILER_API_KEY"
+    }
+  },
+  "glyphs": "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#f8f9fa"
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "water",
+      "paint": {
+        "fill-color": "#c4e3ed"
+      }
+    },
+    {
+      "id": "road-casing",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["!=", "class", "railway"],
+        ["!=", "class", "ferry"]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          8, 1.5,
+          14, 5,
+          18, 12
+        ]
+      }
+    },
+    {
+      "id": "road-surface",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["!=", "class", "railway"],
+        ["!=", "class", "ferry"]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          8, 0.8,
+          14, 3.5,
+          18, 9
+        ],
+        "line-color": [
+          "case",
+          [
+            "match",
+            ["get", "surface"],
+            ["paved", "asphalt", "concrete", "concrete:lanes", "paving_stones"],
+            true,
+            false
+          ],
+          "#38a169",
+          [
+            "match",
+            ["get", "surface"],
+            ["cobblestone", "sett", "unhewn_cobblestone"],
+            true,
+            false
+          ],
+          "#d69e2e",
+          [
+            "match",
+            ["get", "surface"],
+            ["compacted", "fine_gravel", "gravel"],
+            true,
+            false
+          ],
+          "#dd6b20",
+          [
+            "match",
+            ["get", "surface"],
+            ["unpaved", "dirt", "earth", "ground", "mud", "sand"],
+            true,
+            false
+          ],
+          "#e53e3e",
+          "#a0aec0"
+        ]
+      }
+    },
+    {
+      "id": "road-surface-tracktype-fallback",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["!has", "surface"],
+        ["has", "tracktype"]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          8, 0.8,
+          14, 3.5,
+          18, 9
+        ],
+        "line-color": [
+          "match",
+          ["get", "tracktype"],
+          "grade1", "#38a169",
+          "grade2", "#dd6b20",
+          ["grade3", "grade4", "grade5"], "#e53e3e",
+          "#a0aec0"
+        ]
+      }
+    },
+    {
+      "id": "road-labels",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "transportation_name",
+      "layout": {
+        "symbol-placement": "line",
+        "text-field": "{name}",
+        "text-size": 11,
+        "text-font": ["Open Sans Regular"]
+      },
+      "paint": {
+        "text-color": "#2d3748",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1.5
+      }
+    }
+  ]
+}
